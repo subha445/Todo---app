@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>En To-Do List</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+       .container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-top: 30px;
+        }
+        h1 { text-align: center; color: #667eea; margin-bottom: 20px; }
+       .input-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        button:active { transform: scale(0.95); }
+        li {
+            list-style: none;
+            padding: 12px;
+            background: #f8f9fa;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li.done { text-decoration: line-through; opacity: 0.6; }
+       .delete {
+            background: #ff4757;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 En To-Do List</h1>
+        <div class="input-box">
+            <input type="text" id="taskInput" placeholder="Velai ezhudhu da...">
+            <button onclick="addTask()">Add</button>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+        function showTasks() {
+            document.getElementById('taskList').innerHTML = '';
+            tasks.forEach((task, index) => {
+                let li = document.createElement('li');
+                li.className = task.done? 'done' : '';
+                li.innerHTML = `
+                    <span onclick="toggleTask(${index})" style="flex:1; cursor:pointer;">${task.text}</span>
+                    <button class="delete" onclick="deleteTask(${index})">X</button>
+                `;
+                document.getElementById('taskList').appendChild(li);
+            });
+        }
+
+        function addTask() {
+            let input = document.getElementById('taskInput');
+            if(input.value.trim()!== '') {
+                tasks.push({text: input.value, done: false});
+                input.value = '';
+                saveTasks();
+            }
+        }
+
+        function toggleTask(index) {
+            tasks[index].done =!tasks[index].done;
+            saveTasks();
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            saveTasks();
+        }
+
+        function saveTasks() {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            showTasks();
+        }
+
+        showTasks();
+
+        document.getElementById('taskInput').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') addTask();
+        });
+    </script>
+</body>
+</html>
