@@ -1,126 +1,372 @@
+
 <!DOCTYPE html>
-<html lang="ta">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>En To-Do List</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px;
-        }
-       .container {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            margin-top: 30px;
-        }
-        h1 { text-align: center; color: #667eea; margin-bottom: 20px; }
-       .input-box {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        input {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-        button {
-            padding: 12px 20px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        button:active { transform: scale(0.95); }
-        li {
-            list-style: none;
-            padding: 12px;
-            background: #f8f9fa;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        li.done { text-decoration: line-through; opacity: 0.6; }
-       .delete {
-            background: #ff4757;
-            padding: 5px 10px;
-            font-size: 14px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon To-Do App</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #080710;
+    color: white;
+    min-height: 100vh;
+    padding: 25px 15px;
+}
+
+.container {
+    max-width: 500px;
+    width: 100%;
+    margin: 45px auto;
+    padding: 28px;
+    background: #12101e;
+    border: 1px solid #713cff;
+    border-radius: 18px;
+    box-shadow: 0 0 25px rgba(124, 58, 237, 0.25);
+}
+
+h1 {
+    text-align: center;
+    font-size: 30px;
+    color: #b58aff;
+    margin-bottom: 8px;
+    text-shadow: 0 0 12px #813cff;
+}
+
+.subtitle {
+    text-align: center;
+    color: #aaa2bd;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.stats {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.stat {
+    flex: 1;
+    text-align: center;
+    background: #1d1930;
+    border: 1px solid #493078;
+    border-radius: 10px;
+    padding: 13px 5px;
+}
+
+.stat h2 {
+    color: #c49aff;
+    font-size: 23px;
+}
+
+.stat p {
+    color: #aaa2bd;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.input-box {
+    display: flex;
+    gap: 9px;
+    margin-bottom: 20px;
+}
+
+input {
+    min-width: 0;
+    flex: 1;
+    padding: 13px;
+    background: #201b30;
+    color: white;
+    border: 1px solid #60409c;
+    border-radius: 9px;
+    outline: none;
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: #b58aff;
+    box-shadow: 0 0 9px #713cff;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 11px 15px;
+    background: #813cff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.add-btn {
+    font-size: 14px;
+}
+
+.section-title {
+    color: #c49aff;
+    font-size: 16px;
+    margin: 20px 0 12px;
+}
+
+li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: #201b30;
+    border: 1px solid #39304d;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 9px;
+}
+
+.task-text {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+li.done .task-text {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.actions {
+    display: flex;
+    gap: 5px;
+}
+
+.actions button {
+    padding: 7px 9px;
+    font-size: 12px;
+}
+
+.edit-btn {
+    background: #5935a0;
+}
+
+.delete-btn {
+    background: #e04468;
+}
+
+.empty {
+    text-align: center;
+    color: #817991;
+    padding: 22px 5px;
+    font-size: 14px;
+}
+
+.clear-btn {
+    width: 100%;
+    margin-top: 12px;
+    background: transparent;
+    border: 1px solid #813cff;
+    color: #c49aff;
+}
+
+.clear-btn:hover {
+    background: #281a42;
+}
+
+.footer {
+    text-align: center;
+    color: #746b86;
+    font-size: 12px;
+    margin-top: 23px;
+}
+
+@media (max-width: 380px) {
+    .container {
+        padding: 18px;
+    }
+
+    .actions button {
+        padding: 7px;
+    }
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>📝  To-Do List</h1>
-        <div class="input-box">
-            <input type="text" id="taskInput" placeholder="Duty of the Day📝...">
-            <button onclick="addTask()">Add</button>
+
+<div class="container">
+
+    <h1>⚡ Neon To-Do</h1>
+    <p class="subtitle">Organize your day. Achieve your goals.</p>
+
+    <div class="stats">
+        <div class="stat">
+            <h2 id="total">0</h2>
+            <p>Total Tasks</p>
         </div>
-        <ul id="taskList"></ul>
+
+        <div class="stat">
+            <h2 id="completed">0</h2>
+            <p>Completed</p>
+        </div>
+
+        <div class="stat">
+            <h2 id="pending">0</h2>
+            <p>Pending</p>
+        </div>
     </div>
 
-    <script>
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    <div class="input-box">
+        <input type="text" id="taskInput"
+        placeholder="Enter your task...">
 
-        function showTasks() {
-            document.getElementById('taskList').innerHTML = '';
-            tasks.forEach((task, index) => {
-                let li = document.createElement('li');
-                li.className = task.done? 'done' : '';
-                li.innerHTML = `
-                    <span onclick="toggleTask(${index})" style="flex:1; cursor:pointer;">${task.text}</span>
-                    <button class="delete" onclick="deleteTask(${index})">X</button>
-                `;
-                document.getElementById('taskList').appendChild(li);
-            });
+        <button class="add-btn" id="addBtn" onclick="addTask()">
+            Add +
+        </button>
+    </div>
+
+    <h3 class="section-title">✦ My Tasks</h3>
+
+    <ul id="taskList"></ul>
+
+    <button class="clear-btn" onclick="clearCompleted()">
+        Clear Completed Tasks
+    </button>
+
+    <p class="footer">Designed with 💜 | Stay Productive</p>
+
+</div>
+
+<script>
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+let editIndex = -1;
+
+function showTasks() {
+    const list = document.getElementById('taskList');
+    list.innerHTML = '';
+
+    tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+
+        if (task.done) {
+            li.classList.add('done');
         }
 
-        function addTask() {
-            let input = document.getElementById('taskInput');
-            if(input.value.trim()!== '') {
-                tasks.push({text: input.value, done: false});
-                input.value = '';
-                saveTasks();
-            }
-        }
+        const text = document.createElement('span');
+        text.className = 'task-text';
+        text.textContent = task.text;
+        text.onclick = () => toggleTask(index);
 
-        function toggleTask(index) {
-            tasks[index].done =!tasks[index].done;
-            saveTasks();
-        }
+        const actions = document.createElement('div');
+        actions.className = 'actions';
 
-        function deleteTask(index) {
-            tasks.splice(index, 1);
-            saveTasks();
-        }
+        const edit = document.createElement('button');
+        edit.className = 'edit-btn';
+        edit.textContent = 'Edit';
+        edit.onclick = () => editTask(index);
 
-        function saveTasks() {
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-            showTasks();
-        }
+        const del = document.createElement('button');
+        del.className = 'delete-btn';
+        del.textContent = 'X';
+        del.onclick = () => deleteTask(index);
 
-        showTasks();
+        actions.append(edit, del);
+        li.append(text, actions);
+        list.appendChild(li);
+    });
 
-        document.getElementById('taskInput').addEventListener('keypress', function(e) {
-            if(e.key === 'Enter') addTask();
-        });
-    </script>
+    if (tasks.length === 0) {
+        const empty = document.createElement('p');
+        empty.className = 'empty';
+        empty.textContent = '✨ No tasks yet. Add your first task!';
+        list.appendChild(empty);
+    }
+
+    document.getElementById('total').textContent = tasks.length;
+
+    const done = tasks.filter(task => task.done).length;
+
+    document.getElementById('completed').textContent = done;
+    document.getElementById('pending').textContent =
+        tasks.length - done;
+}
+
+function addTask() {
+    const input = document.getElementById('taskInput');
+    const value = input.value.trim();
+
+    if (!value) {
+        alert('Please enter a task!');
+        return;
+    }
+
+    if (editIndex >= 0) {
+        tasks[editIndex].text = value;
+        editIndex = -1;
+        document.getElementById('addBtn').textContent = 'Add +';
+    } else {
+        tasks.push({ text: value, done: false });
+    }
+
+    input.value = '';
+    saveTasks();
+}
+
+function toggleTask(index) {
+    tasks[index].done = !tasks[index].done;
+    saveTasks();
+}
+
+function editTask(index) {
+    document.getElementById('taskInput').value = tasks[index].text;
+    editIndex = index;
+    document.getElementById('addBtn').textContent = 'Update';
+    document.getElementById('taskInput').focus();
+}
+
+function deleteTask(index) {
+    tasks.splice(index, 1);
+
+    if (editIndex === index) {
+        editIndex = -1;
+        document.getElementById('taskInput').value = '';
+        document.getElementById('addBtn').textContent = 'Add +';
+    } else if (editIndex > index) {
+        editIndex--;
+    }
+
+    saveTasks();
+}
+
+function clearCompleted() {
+    tasks = tasks.filter(task => !task.done);
+    editIndex = -1;
+    document.getElementById('taskInput').value = '';
+    document.getElementById('addBtn').textContent = 'Add +';
+    saveTasks();
+}
+
+function saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    showTasks();
+}
+
+document.getElementById('taskInput')
+.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') addTask();
+});
+
+showTasks();
+</script>
+
 </body>
 </html>
